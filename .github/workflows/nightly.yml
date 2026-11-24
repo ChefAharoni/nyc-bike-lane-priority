@@ -1,0 +1,369 @@
+name: nightly
+
+on:
+  schedule:
+    - cron: '0 7 * * *' # 07:00 UTC = 2 am EST / 3 am EDT
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Run without --previous-meta (only the first-run absolute bounds apply)'
+        type: boolean
+        default: false
+  push:
+    branches: [main]
+
+# Every job asks for what it needs; nothing is granted by default.
+permissions: {}
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  TIPPECANOE_VERSION: 2.79.0
+  TIPPECANOE_SHA: 68ab8dcc229f95b8b25877697d5e8d66783af503
+
+jobs:
+  # Runs the pipeline and publishes the data branch. Install steps (uv sync, make) run with no token in their
+  # environment and no persisted git credentials; the token is passed only to the steps that call gh or push.
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+      issues: write
+      actions: write
+    outputs:
+      ran: ${{ steps.mode.outputs.run_pipeline }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Re-enable this workflow (monthly)
+        if: github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$(date -u +%d)" = "01" ]; then
+            gh api -X PUT "repos/${{ github.repository }}/actions/workflows/nightly.yml/enable" \
+              || echo "::warning::could not re-enable nightly.yml"
+          fi
+
+      - name: Fetch the data branch
+        id: data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          url="https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          # ls-remote --exit-code: 0 = branch exists, 2 = no such branch (first run), anything else = error.
+          # An error must fail the job: treating it as a first run would overwrite the real data branch.
+          set +e
+          git ls-remote --exit-code --heads "$url" data >/dev/null 2>&1
+          rc=$?
+          set -e
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
+            echo "::error::could not look up the data branch (git ls-remote exit $rc)"
+            exit 1
+          fi
+          if [ "$rc" -eq 0 ]; then
+            git fetch --depth 1 "$url" data
+            git worktree add --detach data-branch FETCH_HEAD
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            # A data branch that exists must be complete: never treat a broken one as a first run.
+            for f in latest/meta.json latest/areas.json snapshots/index.json; do
+              if [ ! -f "data-branch/$f" ]; then
+                echo "::error::data branch exists but data-branch/$f is missing"
+                exit 1
+              fi
+            done
+          else
+            mkdir -p data-branch/snapshots
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Decide whether to run the pipeline
+        id: mode
+        run: |
+          # A push to main only rebuilds the site from the stored data, unless there is none yet.
+          if [ "${{ github.event_name }}" = "push" ] && [ "${{ steps.data.outputs.exists }}" = "true" ]; then
+            echo "run_pipeline=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_pipeline=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+        if: steps.mode.outputs.run_pipeline == 'true'
+
+      - name: Install Python dependencies
+        if: steps.mode.outputs.run_pipeline == 'true'
+        run: uv sync
+
+      - name: Restore tippecanoe build cache
+        if: steps.mode.outputs.run_pipeline == 'true'
+        id: tippecanoe-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.local/tippecanoe
+          key: tippecanoe-${{ runner.os }}-${{ env.TIPPECANOE_SHA }}
+
+      - name: Install tippecanoe
+        if: steps.mode.outputs.run_pipeline == 'true'
+        id: tippecanoe
+        run: |
+          if [ "${{ steps.tippecanoe-cache.outputs.cache-hit }}" = "true" ]; then
+            echo "$HOME/.local/tippecanoe/bin" >> "$GITHUB_PATH"
+            exit 0
+          fi
+          sudo apt-get update -qq
+          candidate=$(apt-cache policy tippecanoe | awk '/Candidate:/ {print $2}')
+          # Drop an epoch prefix ("1:") and the Debian revision ("-1"), then compare with 2.17.
+          ver=${candidate#*:}
+          ver=${ver%%-*}
+          if [ -n "$ver" ] && [ "$candidate" != "(none)" ] \
+             && [ "$(printf '%s\n2.17\n' "$ver" | sort -V | head -n1)" = "2.17" ]; then
+            echo "using apt tippecanoe $candidate"
+            sudo apt-get install -y tippecanoe
+          else
+            echo "apt tippecanoe ($candidate) is older than 2.17; building $TIPPECANOE_VERSION"
+            sudo apt-get install -y build-essential libsqlite3-dev zlib1g-dev
+            git clone https://github.com/felt/tippecanoe.git "$RUNNER_TEMP/tippecanoe"
+            git -C "$RUNNER_TEMP/tippecanoe" checkout "$TIPPECANOE_SHA"
+            make -C "$RUNNER_TEMP/tippecanoe" -j"$(nproc)"
+            make -C "$RUNNER_TEMP/tippecanoe" install PREFIX="$HOME/.local/tippecanoe"
+            echo "$HOME/.local/tippecanoe/bin" >> "$GITHUB_PATH"
+            echo "built=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Saved right after the build so a later failure does not lose a 10 minute compile.
+      - name: Save tippecanoe build cache
+        if: always() && steps.tippecanoe.outputs.built == 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.local/tippecanoe
+          key: tippecanoe-${{ runner.os }}-${{ env.TIPPECANOE_SHA }}
+
+      - name: Look up the street map file id
+        if: steps.mode.outputs.run_pipeline == 'true'
+        id: lion
+        run: |
+          blob=$(curl -fsS --retry 3 --retry-all-errors --connect-timeout 15 --max-time 60 https://data.cityofnewyork.us/api/views/2v4z-66xt.json | jq -r .blobId)
+          [ -n "$blob" ] && [ "$blob" != "null" ] || { echo "::error::no blobId"; exit 1; }
+          echo "blob=$blob" >> "$GITHUB_OUTPUT"
+
+      - name: Cache the street map download
+        if: steps.mode.outputs.run_pipeline == 'true'
+        uses: actions/cache@v4
+        with:
+          path: .cache/lion
+          key: lion-${{ steps.lion.outputs.blob }}
+
+      - name: Run the pipeline
+        if: steps.mode.outputs.run_pipeline == 'true'
+        id: pipeline
+        env:
+          FORCE: ${{ inputs.force }}
+          SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
+        run: |
+          args=(--out data_out --lion-cache .cache/lion --snapshots data-branch/snapshots)
+          if [ "${{ steps.data.outputs.exists }}" = "true" ] && [ "$FORCE" != "true" ]; then
+            args+=(--previous-meta data-branch/latest/meta.json)
+          fi
+          echo "pipeline args: ${args[*]}"
+          set +e
+          uv run python -m pipeline "${args[@]}" 2> pipeline.err
+          rc=$?
+          set -e
+          cat pipeline.err >&2
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          # Exit 3 is handled by the issue step below; anything else fails here (no issue is filed).
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
+            exit "$rc"
+          fi
+
+      # A banned term in the live data is handled like a sanity failure: issue, then fail before publishing.
+      # check_branding exit 1 = hit, exit 2 = not configured or scan error (fails loudly, no issue).
+      - name: Scan the live data for banned terms
+        if: steps.pipeline.outputs.rc == '0'
+        id: branding
+        env:
+          BRANDING_PATTERNS: ${{ secrets.BRANDING_PATTERNS }}
+        run: |
+          set +e
+          scripts/check_branding.sh data_out > branding.err 2>&1
+          rc=$?
+          set -e
+          cat branding.err >&2
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 1 ]; then
+            echo "::error::branding scan could not run (exit $rc); is the BRANDING_PATTERNS secret set?"
+            exit "$rc"
+          fi
+
+      - name: Report sanity failure in an issue
+        if: steps.pipeline.outputs.rc == '3' || steps.branding.outputs.rc == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create nightly-sanity --color B60205 \
+            --description "Nightly pipeline sanity check failed" --force
+          {
+            echo "The nightly run failed a check (sanity bounds or the banned-term scan); nothing was deployed. Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            echo
+            echo '````'
+            if [ "${{ steps.branding.outputs.rc }}" = "1" ]; then
+              echo "Banned-term scan of the live data found a hit (matched lines are in the job log, not repeated here)."
+            else
+              tail -n 40 pipeline.err | tr -d '@'
+            fi
+            echo '````'
+            echo
+            echo "If the change is legitimate, rerun the workflow with the force input set to true (see docs/operations.md)."
+          } > issue-body.md
+          existing=$(gh issue list --label nightly-sanity --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file issue-body.md
+          else
+            gh issue create --label nightly-sanity \
+              --title "Nightly sanity check failed ($(date -u +%F))" --body-file issue-body.md
+          fi
+
+      - name: Fail on sanity failure
+        if: steps.pipeline.outputs.rc == '3' || steps.branding.outputs.rc == '1'
+        run: |
+          echo "::error::sanity check failed; see the nightly-sanity issue"
+          exit 1
+
+      - name: Assemble and publish the data branch
+        if: steps.pipeline.outputs.rc == '0' && steps.branding.outputs.rc == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # GitHub rejects files over 100 MB; drop crash CSVs over 50 MB (none expected).
+          find data_out/crashes -name '*.csv' -size +50M -print -delete | sed 's/^/::warning::dropped oversized /'
+          rm -rf data-publish
+          mkdir -p data-publish/latest data-publish/snapshots
+          for f in data_out/*; do
+            [ "$(basename "$f")" = "snapshots" ] && continue
+            cp -R "$f" data-publish/latest/
+          done
+          cp -R data-branch/snapshots/. data-publish/snapshots/
+          date=$(jq -r .data_date data-publish/latest/meta.json)
+          cd data-publish
+          git init -q -b data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "data: $date"
+          # A single orphan commit replaces the branch so the repository history does not grow.
+          git push --force "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" HEAD:refs/heads/data
+
+      - name: Upload the data for the site job
+        if: steps.pipeline.outputs.rc == '0' && steps.branding.outputs.rc == '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: data
+          path: |
+            data-publish/latest
+            data-publish/snapshots
+          if-no-files-found: error
+          retention-days: 1
+
+  # Builds the site. Runs npm lifecycle scripts, so it has read-only repository access and no other permission.
+  site:
+    needs: pipeline
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Download the data from the pipeline job
+        if: needs.pipeline.outputs.ran == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: data
+          path: data-in
+
+      - name: Fetch the data branch (site-only run)
+        if: needs.pipeline.outputs.ran != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          url="https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          set +e
+          git ls-remote --exit-code --heads "$url" data >/dev/null 2>&1
+          rc=$?
+          set -e
+          if [ "$rc" -eq 2 ]; then
+            echo "::error::the data branch does not exist; a site-only run cannot build without data"
+            exit 1
+          elif [ "$rc" -ne 0 ]; then
+            echo "::error::could not look up the data branch (git ls-remote exit $rc)"
+            exit 1
+          fi
+          git fetch --depth 1 "$url" data
+          git worktree add --detach data-in FETCH_HEAD
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Check the data against the contract
+        working-directory: site
+        env:
+          CONTRACT_DIR: ${{ github.workspace }}/data-in/latest
+          CONTRACT_SNAPSHOTS_DIR: ${{ github.workspace }}/data-in/snapshots
+        run: |
+          npm ci
+          npx vitest run src/lib/types.test.ts
+
+      - name: Build the site and bundle the data
+        env:
+          BRANDING_PATTERNS: ${{ secrets.BRANDING_PATTERNS }}
+        run: scripts/assemble_site.sh data-in/latest data-in/snapshots
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+  deploy:
+    needs: [pipeline, site]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deploy
+
+  # After a successful deploy of a freshly computed dataset, a sanity issue from an earlier run is resolved.
+  close-sanity-issue:
+    needs: [pipeline, deploy]
+    if: needs.pipeline.outputs.ran == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    steps:
+      - name: Close the sanity issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for n in $(gh issue list --repo "${{ github.repository }}" --label nightly-sanity --state open --json number --jq '.[].number'); do
+            gh issue close "$n" --repo "${{ github.repository }}" \
+              --comment "Deployed after a passing sanity check: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          done

@@ -1,0 +1,24 @@
+:root {
+  --navy: #0f1f3d;
+  --ink: #101828;
+  --muted: #475467;
+  --paper: #ffffff;
+  --line: #d6dce5;
+  --t1: #dc2626;
+  --t2: #f97316;
+  --ok: #16a34a;
+  --area: #2563eb;
+  --area-dark: #1d4ed8;
+  --area-soft: #e3ecfd;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--ink);
+  line-height: 1.4;
+  font-size: 16px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #f3f5f8; }
+a { color: var(--area-dark); }
+button { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; }
+.bar :focus-visible { outline-color: #fbbf24; }
+button:disabled { cursor: not-allowed; }

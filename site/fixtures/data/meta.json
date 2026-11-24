@@ -1,0 +1,77 @@
+{
+ "data_date": "2026-11-24",
+ "built_at": "2026-11-24T09:12:00Z",
+ "window_start": "2021-11-01",
+ "recent_start": "2024-11-01",
+ "sources": {
+  "crashes": "2026-11-24T04:00:00Z",
+  "persons": "2026-11-24T04:00:00Z",
+  "vehicles": "2026-11-24T04:00:00Z",
+  "routes": "2026-10-02T14:30:00Z",
+  "council": "2023-03-14T00:00:00Z",
+  "community": "2023-03-14T00:00:00Z",
+  "lion": "2026-09-18T12:00:00Z"
+ },
+ "counts": {
+  "candidate_crashes": 71,
+  "bike_riders": 69,
+  "riders_killed": 2,
+  "bike_crashes": 68,
+  "match_high": 57,
+  "match_medium": 8,
+  "match_low": 1,
+  "unmatched_no_coords": 1,
+  "unmatched_too_far": 1,
+  "lane_none": 51,
+  "lane_paint": 9,
+  "lane_sharrow": 0,
+  "lane_protected": 3,
+  "lane_unknown": 5,
+  "blocks": 12,
+  "ranked_blocks": 9,
+  "tier1_blocks": 7,
+  "tier2_blocks": 2,
+  "stretches": 4,
+  "rows_crashes": 2210000,
+  "rows_persons": 5640000,
+  "rows_vehicles": 4390000,
+  "rows_routes": 17850,
+  "rows_council": 51,
+  "rows_community": 71,
+  "rows_lion": 240000
+ },
+ "citywide": {
+  "crashes_5y": 55,
+  "injured_5y": 54,
+  "killed_5y": 2,
+  "lane_at_crash_5y": {
+   "none": 41,
+   "paint": 7,
+   "sharrow": 0,
+   "protected": 3,
+   "unknown": 4
+  },
+  "ranked_blocks": 9,
+  "tier1_blocks": 7,
+  "tier2_blocks": 2,
+  "stretches": 4,
+  "shared_stretches": 1
+ },
+ "unassigned": {
+  "crashes_5y": 1,
+  "injured_5y": 1,
+  "killed_5y": 0,
+  "lane_at_crash_5y": {
+   "none": 0,
+   "paint": 0,
+   "sharrow": 0,
+   "protected": 0,
+   "unknown": 1
+  },
+  "ranked_blocks": 0,
+  "tier1_blocks": 0,
+  "tier2_blocks": 0,
+  "stretches": 0,
+  "shared_stretches": 0
+ }
+}

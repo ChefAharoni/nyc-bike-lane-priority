@@ -1,0 +1,1050 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800000",
+    "date": "2021-11-15",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.961143,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800001",
+    "date": "2022-08-05",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.960286,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800002",
+    "date": "2023-04-25",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.959429,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800003",
+    "date": "2024-01-13",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.958571,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800004",
+    "date": "2024-10-02",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.957714,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800005",
+    "date": "2025-06-22",
+    "lane": "unknown",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.956857,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800100",
+    "date": "2022-03-26",
+    "lane": "none",
+    "injured": 0,
+    "killed": 1,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.95545,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800101",
+    "date": "2022-12-14",
+    "lane": "none",
+    "injured": 2,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9549,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800102",
+    "date": "2023-09-03",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.95435,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800103",
+    "date": "2024-05-23",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9538,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800104",
+    "date": "2025-02-10",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.95325,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800105",
+    "date": "2025-10-31",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9527,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800106",
+    "date": "2026-07-21",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.95215,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800107",
+    "date": "2022-04-16",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9516,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800108",
+    "date": "2026-11-24",
+    "lane": "unknown",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.95105,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800300",
+    "date": "2022-12-13",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100004"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.941417,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800301",
+    "date": "2023-09-02",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100004"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.939833,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800302",
+    "date": "2024-05-22",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100004"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.93825,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800303",
+    "date": "2025-02-09",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100004"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.936667,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800304",
+    "date": "2025-10-30",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100004"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.935083,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800400",
+    "date": "2023-04-23",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100005"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9328,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800401",
+    "date": "2024-01-11",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100005"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9321,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800402",
+    "date": "2024-09-30",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100005"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9314,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800403",
+    "date": "2025-06-20",
+    "lane": "unknown",
+    "injured": 1,
+    "killed": 0,
+    "street": "EMPIRE BOULEVARD",
+    "segmentid": "0100005"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9307,
+     40.66304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800500",
+    "date": "2023-09-01",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.666978
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800501",
+    "date": "2024-05-21",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.667415
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800502",
+    "date": "2025-02-08",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.667852
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800503",
+    "date": "2025-10-29",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.66829
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800504",
+    "date": "2026-07-19",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.668728
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800505",
+    "date": "2022-04-14",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.669165
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800506",
+    "date": "2023-01-02",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.669602
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800600",
+    "date": "2024-01-10",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.663623
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800601",
+    "date": "2024-09-29",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.664207
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800602",
+    "date": "2025-06-19",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.66479
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800603",
+    "date": "2026-03-09",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.665373
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800604",
+    "date": "2021-12-03",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.665957
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800700",
+    "date": "2024-05-20",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200003"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.65664
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800701",
+    "date": "2025-02-07",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200003"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.65724
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800702",
+    "date": "2025-10-28",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200003"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.65784
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800703",
+    "date": "2026-07-18",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "NOSTRAND AVENUE",
+    "segmentid": "0200003"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9505,
+     40.65844
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800800",
+    "date": "2024-09-28",
+    "lane": "none",
+    "injured": 0,
+    "killed": 1,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.666929
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800801",
+    "date": "2025-06-18",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.667318
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800802",
+    "date": "2026-03-08",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.667707
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800803",
+    "date": "2021-12-02",
+    "lane": "paint",
+    "injured": 1,
+    "killed": 0,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.668096
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800804",
+    "date": "2022-08-22",
+    "lane": "paint",
+    "injured": 1,
+    "killed": 0,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.668484
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800805",
+    "date": "2023-05-12",
+    "lane": "paint",
+    "injured": 1,
+    "killed": 0,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.668873
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800806",
+    "date": "2024-01-30",
+    "lane": "paint",
+    "injured": 1,
+    "killed": 0,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.669262
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800807",
+    "date": "2024-10-19",
+    "lane": "paint",
+    "injured": 1,
+    "killed": 0,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.669651
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800900",
+    "date": "2025-02-06",
+    "lane": "none",
+    "injured": 1,
+    "killed": 0,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.663915
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800901",
+    "date": "2025-10-27",
+    "lane": "paint",
+    "injured": 1,
+    "killed": 0,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.66479
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4800902",
+    "date": "2026-07-17",
+    "lane": "paint",
+    "injured": 1,
+    "killed": 0,
+    "street": "UTICA AVENUE",
+    "segmentid": "0300002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.9335,
+     40.665665
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4801000",
+    "date": "2025-06-17",
+    "lane": "protected",
+    "injured": 1,
+    "killed": 0,
+    "street": "ROGERS AVENUE",
+    "segmentid": "0400001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.953,
+     40.667707
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4801001",
+    "date": "2026-03-07",
+    "lane": "protected",
+    "injured": 1,
+    "killed": 0,
+    "street": "ROGERS AVENUE",
+    "segmentid": "0400001"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.953,
+     40.668873
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4801100",
+    "date": "2025-10-26",
+    "lane": "protected",
+    "injured": 1,
+    "killed": 0,
+    "street": "ROGERS AVENUE",
+    "segmentid": "0400002"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.953,
+     40.66479
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "collision_id": "4899001",
+    "date": "2025-03-09",
+    "lane": "unknown",
+    "injured": 1,
+    "killed": 0,
+    "street": "",
+    "segmentid": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.972,
+     40.649
+    ]
+   }
+  }
+ ]
+}

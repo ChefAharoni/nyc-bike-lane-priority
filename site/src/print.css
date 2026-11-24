@@ -1,0 +1,30 @@
+/* Screen: the printable report never shows. */
+.print-only { display: none; }
+
+@media print {
+  @page { size: letter; margin: 0.6in; }
+  html, body { background: #fff !important; height: auto !important; overflow: visible !important; }
+  .app, .export-backdrop, .screen-only { display: none !important; }
+  .print-only { display: block !important; }
+  .report { font-family: Georgia, 'Times New Roman', serif; font-size: 10.5pt; line-height: 1.35; color: #000; }
+  .report h1 { font-size: 18pt; margin: 0 0 2pt; }
+  .report h2 { font-size: 12.5pt; margin: 14pt 0 5pt; border-bottom: 1.5pt solid #000; padding-bottom: 2pt; break-after: avoid; }
+  .report .area { font-size: 14pt; font-weight: 700; margin: 0; }
+  .report .meta, .report .note { font-size: 9.5pt; margin: 2pt 0 6pt; }
+  .report .break { break-before: page; }
+  .report table { width: 100%; border-collapse: collapse; margin: 4pt 0 8pt; }
+  .report caption { text-align: left; font-weight: 700; padding-bottom: 2pt; }
+  .report th, .report td { border: 0.5pt solid #000; padding: 2.5pt 4pt; text-align: left; vertical-align: top; }
+  .report .kv th { font-weight: 400; width: 75%; }
+  .report .kv td { font-weight: 700; text-align: right; }
+  .report .list thead th { background: #e5e5e5; font-size: 9pt; }
+  .report .list td.tier { white-space: nowrap; }
+  .report .list tr { break-inside: avoid; }
+  .report .list thead { display: table-header-group; }
+  .report img.map { display: block; max-width: 100%; max-height: 3.7in; object-fit: contain; border: 0.5pt solid #000; }
+  .report ul.plain { padding-left: 14pt; margin: 4pt 0; }
+  .report ol { padding-left: 16pt; }
+  .report li { margin-bottom: 4pt; break-inside: avoid; }
+  .report .url { font-family: ui-monospace, Menlo, monospace; font-size: 9pt; word-break: break-all; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

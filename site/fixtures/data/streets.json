@@ -1,0 +1,69 @@
+[
+ {
+  "street_key": "Brooklyn|EMPIREBOULEVARD|1",
+  "street": "EMPIRE BOULEVARD",
+  "borough": "Brooklyn",
+  "tier": 1,
+  "rank": 1,
+  "score": 18.0,
+  "blocks": 4,
+  "crashes_5y": 21,
+  "injured_5y": 21,
+  "killed_5y": 1,
+  "stretch_ids": [
+   "S0100001"
+  ],
+  "cbs": [
+   "308",
+   "309",
+   "317"
+  ],
+  "cds": [
+   "35",
+   "40"
+  ]
+ },
+ {
+  "street_key": "Brooklyn|NOSTRANDAVENUE|1",
+  "street": "NOSTRAND AVENUE",
+  "borough": "Brooklyn",
+  "tier": 1,
+  "rank": 2,
+  "score": 12.0,
+  "blocks": 3,
+  "crashes_5y": 16,
+  "injured_5y": 16,
+  "killed_5y": 0,
+  "stretch_ids": [
+   "S0200001",
+   "S0200003"
+  ],
+  "cbs": [
+   "309"
+  ],
+  "cds": [
+   "35"
+  ]
+ },
+ {
+  "street_key": "Brooklyn|UTICAAVENUE|2",
+  "street": "UTICA AVENUE",
+  "borough": "Brooklyn",
+  "tier": 2,
+  "rank": 3,
+  "score": 12.5,
+  "blocks": 2,
+  "crashes_5y": 11,
+  "injured_5y": 10,
+  "killed_5y": 1,
+  "stretch_ids": [
+   "S0300001"
+  ],
+  "cbs": [
+   "309"
+  ],
+  "cds": [
+   "40"
+  ]
+ }
+]

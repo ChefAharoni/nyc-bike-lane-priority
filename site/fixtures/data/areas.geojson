@@ -1,0 +1,180 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "cb",
+    "id": "308",
+    "name": "Brooklyn CB 8"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -73.97,
+       40.655
+      ],
+      [
+       -73.956,
+       40.655
+      ],
+      [
+       -73.956,
+       40.675
+      ],
+      [
+       -73.97,
+       40.675
+      ],
+      [
+       -73.97,
+       40.655
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "cb",
+    "id": "309",
+    "name": "Brooklyn CB 9"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -73.956,
+       40.655
+      ],
+      [
+       -73.9325,
+       40.655
+      ],
+      [
+       -73.9325,
+       40.675
+      ],
+      [
+       -73.956,
+       40.675
+      ],
+      [
+       -73.956,
+       40.655
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "cb",
+    "id": "317",
+    "name": "Brooklyn CB 17"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -73.9325,
+       40.655
+      ],
+      [
+       -73.925,
+       40.655
+      ],
+      [
+       -73.925,
+       40.675
+      ],
+      [
+       -73.9325,
+       40.675
+      ],
+      [
+       -73.9325,
+       40.655
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "cd",
+    "id": "35",
+    "name": "Council District 35"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -73.97,
+       40.655
+      ],
+      [
+       -73.95,
+       40.655
+      ],
+      [
+       -73.95,
+       40.675
+      ],
+      [
+       -73.97,
+       40.675
+      ],
+      [
+       -73.97,
+       40.655
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "kind": "cd",
+    "id": "40",
+    "name": "Council District 40"
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -73.95,
+       40.655
+      ],
+      [
+       -73.925,
+       40.655
+      ],
+      [
+       -73.925,
+       40.675
+      ],
+      [
+       -73.95,
+       40.675
+      ],
+      [
+       -73.95,
+       40.655
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
