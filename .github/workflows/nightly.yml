@@ -106,7 +106,7 @@ jobs:
       - name: Restore tippecanoe build cache
         if: steps.mode.outputs.run_pipeline == 'true'
         id: tippecanoe-cache
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: ~/.local/tippecanoe
           key: tippecanoe-${{ runner.os }}-${{ env.TIPPECANOE_SHA }}
@@ -142,7 +142,7 @@ jobs:
       # Saved right after the build so a later failure does not lose a 10 minute compile.
       - name: Save tippecanoe build cache
         if: always() && steps.tippecanoe.outputs.built == 'true'
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: ~/.local/tippecanoe
           key: tippecanoe-${{ runner.os }}-${{ env.TIPPECANOE_SHA }}
@@ -157,7 +157,7 @@ jobs:
 
       - name: Cache the street map download
         if: steps.mode.outputs.run_pipeline == 'true'
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .cache/lion
           key: lion-${{ steps.lion.outputs.blob }}
