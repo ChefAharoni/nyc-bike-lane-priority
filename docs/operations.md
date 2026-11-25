@@ -56,7 +56,7 @@ limit: at z10 and z11 the density drop still removes about 44% of the ranked blo
 priority layer is drawn from those tiles when zoomed out, so a zoomed-out map is a thinned view, and every block
 appears from z12.
 
-Notes: all three tile files use `-Z10` (crashes too: the site shows crash dots from z12); `blocks.pmtiles` holds 147,217 of the 147,218 snap-layer blocks (the missing one has zero length) and its maximum
+Notes: blocks and lanes use `-Z8` so the citywide view (about z8.7 on phones, z9.6 on desktop) shows them; crashes use `-Z10` (the site shows crash dots from z12); `blocks.pmtiles` holds 147,217 of the 147,218 snap-layer blocks (the missing one has zero length) and its maximum
 zoom is 12 (the client overzooms). All three tile files start with the `PMTiles` magic bytes.
 
 ## Before the first deploy

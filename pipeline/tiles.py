@@ -71,6 +71,6 @@ def build_tiles(lion_segments: gpd.GeoDataFrame, routes: pd.DataFrame, crashes_5
     out_dir.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as t:
         tmp = Path(t)
-        _tippecanoe(_blocks_lines(lion_segments), "blocks", out_dir / "blocks.pmtiles", tmp, ["-Z10", "-d14"])
-        _tippecanoe(_lane_lines(routes), "lanes", out_dir / "bike_lanes.pmtiles", tmp, ["-Z10"])
+        _tippecanoe(_blocks_lines(lion_segments), "blocks", out_dir / "blocks.pmtiles", tmp, ["-Z8", "-d14"])
+        _tippecanoe(_lane_lines(routes), "lanes", out_dir / "bike_lanes.pmtiles", tmp, ["-Z8"])
         _tippecanoe(_crash_points(crashes_5y), "crashes", out_dir / "crashes.pmtiles", tmp, ["-Z10", "-r1"])
