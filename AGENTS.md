@@ -118,6 +118,29 @@ scripts/check_branding.sh                 # must exit 0 before every commit
 - **Map tile zooms:** blocks and lanes start at zoom 8, crashes at 10 (the site shows dots from 12). The citywide view sits at about z8.7 on phones and z9.6 on desktop; below the tile minimum, layers draw nothing.
 - **The first nightly run after a big legitimate change** (for example a new street map release) can trip the sanity gate. Rerun with the `force` input; see `docs/operations.md`.
 
+## Current status and next steps (updated 2026-11-25)
+
+Update this section at the end of every working session, so the next person can pick up without context.
+
+**State:** live and healthy at https://bikelanepriority.org. Nightly runs, CI and deploys pass. Latest data date 2026-11-21 (81,269 bike crashes, 17,210 ranked blocks, 7,837 stretches).
+
+**Recent changes (newest first):**
+- Dependabot action upgrades merged: checkout v7, cache v6, upload-artifact v7, download-artifact v8, upload-pages-artifact v5 (release notes reviewed; none affect this workflow). A manual full nightly run (`gh run list -R ChefAharoni/nyc-bike-lane-priority --workflow nightly`, dispatched 2026-11-25) was started to exercise them; confirm it passed.
+- Community Board and Council District boundary layers (off by default, one label per area from z11).
+- Street and lane tiles start at zoom 8, so the citywide view shows the priority streets.
+- Push-only nightly runs no longer run pipeline-only steps (the `null == '0'` expression bug).
+- Custom domain `bikelanepriority.org` with HTTPS.
+
+**Next steps:**
+1. Confirm the manual nightly run above passed; if a step failed, read `gh run view <id> --log-failed` and fix forward.
+2. Dependabot will open pull requests for `actions/setup-node` and `actions/deploy-pages` (still on v4, Node 20 deprecation warnings). Read the major-version release notes against how `nightly.yml` uses them, merge, then run the nightly by hand and watch it.
+
+**Known follow-ups (small, not urgent):**
+- Workflow: the real-data contract check runs after the `data` branch is published (a contract bug would become the next night's baseline); a banned-term hit prints the matched line in the job log; the fetch retries don't cover a truncated response body (`ChunkedEncodingError`); the optional Socrata token is forwarded through the street-map file redirect.
+- Map: z10 to z11 tiles are thinned in dense areas (every ranked block appears from z12); a very large board on a narrow phone may fit below z12.
+- Site: board tags drop the borough in area mode ("CB 9"); the Whole streets and Shared-only toggles are not kept in links; title-casing mangles names such as "MLK"; a trailing bad URL segment (`/s` with no id) is dropped silently.
+- Pipeline: a Y-shaped stretch reports only two of its three ends in from/to; `tests` lack a few edge cases (pandas `str` dtype, CLI error paths).
+
 ## Deploy and infrastructure
 
 - Repository: `github.com/ChefAharoni/nyc-bike-lane-priority`. Pages source: GitHub Actions. Custom domain `bikelanepriority.org` (DNS at Cloudflare, HTTPS enforced). Details and the "if the domain lapses" steps are in `docs/operations.md`.
