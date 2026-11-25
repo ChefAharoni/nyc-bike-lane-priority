@@ -332,7 +332,7 @@ jobs:
           BRANDING_PATTERNS: ${{ secrets.BRANDING_PATTERNS }}
         run: scripts/assemble_site.sh data-in/latest data-in/snapshots
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site/dist
 
