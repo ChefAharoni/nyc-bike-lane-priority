@@ -264,7 +264,7 @@ jobs:
 
       - name: Upload the data for the site job
         if: steps.mode.outputs.run_pipeline == 'true' && steps.pipeline.outputs.rc == '0' && steps.branding.outputs.rc == '0'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: data
           path: |
