@@ -188,7 +188,7 @@ jobs:
       # A banned term in the live data is handled like a sanity failure: issue, then fail before publishing.
       # check_branding exit 1 = hit, exit 2 = not configured or scan error (fails loudly, no issue).
       - name: Scan the live data for banned terms
-        if: steps.pipeline.outputs.rc == '0'
+        if: steps.mode.outputs.run_pipeline == 'true' && steps.pipeline.outputs.rc == '0'
         id: branding
         env:
           BRANDING_PATTERNS: ${{ secrets.BRANDING_PATTERNS }}
@@ -205,7 +205,7 @@ jobs:
           fi
 
       - name: Report sanity failure in an issue
-        if: steps.pipeline.outputs.rc == '3' || steps.branding.outputs.rc == '1'
+        if: steps.mode.outputs.run_pipeline == 'true' && (steps.pipeline.outputs.rc == '3' || steps.branding.outputs.rc == '1')
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -233,13 +233,13 @@ jobs:
           fi
 
       - name: Fail on sanity failure
-        if: steps.pipeline.outputs.rc == '3' || steps.branding.outputs.rc == '1'
+        if: steps.mode.outputs.run_pipeline == 'true' && (steps.pipeline.outputs.rc == '3' || steps.branding.outputs.rc == '1')
         run: |
           echo "::error::sanity check failed; see the nightly-sanity issue"
           exit 1
 
       - name: Assemble and publish the data branch
-        if: steps.pipeline.outputs.rc == '0' && steps.branding.outputs.rc == '0'
+        if: steps.mode.outputs.run_pipeline == 'true' && steps.pipeline.outputs.rc == '0' && steps.branding.outputs.rc == '0'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -263,7 +263,7 @@ jobs:
           git push --force "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" HEAD:refs/heads/data
 
       - name: Upload the data for the site job
-        if: steps.pipeline.outputs.rc == '0' && steps.branding.outputs.rc == '0'
+        if: steps.mode.outputs.run_pipeline == 'true' && steps.pipeline.outputs.rc == '0' && steps.branding.outputs.rc == '0'
         uses: actions/upload-artifact@v4
         with:
           name: data
