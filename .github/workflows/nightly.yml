@@ -96,7 +96,7 @@ jobs:
             echo "run_pipeline=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5.4.2
+      - uses: astral-sh/setup-uv@1db35dd8eee11c5894872e0b383ae6c406cf738d # v10.4.0
         if: steps.mode.outputs.run_pipeline == 'true'
 
       - name: Install Python dependencies
@@ -312,7 +312,7 @@ jobs:
           git fetch --depth 1 "$url" data
           git worktree add --detach data-in FETCH_HEAD
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -347,7 +347,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v5
         id: deploy
 
   # After a successful deploy of a freshly computed dataset, a sanity issue from an earlier run is resolved.

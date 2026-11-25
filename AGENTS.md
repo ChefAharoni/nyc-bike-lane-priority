@@ -125,15 +125,15 @@ Update this section at the end of every working session, so the next person can 
 **State:** live and healthy at https://bikelanepriority.org. Nightly runs, CI and deploys pass. Latest data date 2026-11-21 (81,269 bike crashes, 17,210 ranked blocks, 7,837 stretches).
 
 **Recent changes (newest first):**
-- Dependabot action upgrades merged: checkout v7, cache v6, upload-artifact v7, download-artifact v8, upload-pages-artifact v5 (release notes reviewed; none affect this workflow). A manual full nightly run (`gh run list -R ChefAharoni/nyc-bike-lane-priority --workflow nightly`, dispatched 2026-11-25) was started to exercise them; confirm it passed.
+- All actions now run on Node 24 (no more Node 20 deprecation warnings): setup-node v7, deploy-pages v5, setup-uv v10.4.0 (pinned by commit). Release notes reviewed: the workflows set `cache: npm` explicitly, use no `NODE_AUTH_TOKEN`, and pass no setup-uv inputs (Python comes from `.python-version`), so none of the breaking changes apply.
+- Dependabot action upgrades merged: checkout v7, cache v6, upload-artifact v7, download-artifact v8, upload-pages-artifact v5 (release notes reviewed; none affect this workflow). A manual full nightly run (run 45541945031, 2026-11-25) exercised them and passed every job. The live data then passed the real-data contract check, and the site was checked in a browser (desktop and phone; CB 9, citywide, a stretch) with no errors.
 - Community Board and Council District boundary layers (off by default, one label per area from z11).
 - Street and lane tiles start at zoom 8, so the citywide view shows the priority streets.
 - Push-only nightly runs no longer run pipeline-only steps (the `null == '0'` expression bug).
 - Custom domain `bikelanepriority.org` with HTTPS.
 
 **Next steps:**
-1. Confirm the manual nightly run above passed; if a step failed, read `gh run view <id> --log-failed` and fix forward.
-2. Dependabot will open pull requests for `actions/setup-node` and `actions/deploy-pages` (still on v4, Node 20 deprecation warnings). Read the major-version release notes against how `nightly.yml` uses them, merge, then run the nightly by hand and watch it.
+1. Nothing urgent. When Dependabot opens a major-version pull request, read its release notes against how the workflows use that action, merge, then run the nightly by hand and watch it. Pick from the follow-ups below as time allows.
 
 **Known follow-ups (small, not urgent):**
 - Workflow: the real-data contract check runs after the `data` branch is published (a contract bug would become the next night's baseline); a banned-term hit prints the matched line in the job log; the fetch retries don't cover a truncated response body (`ChunkedEncodingError`); the optional Socrata token is forwarded through the street-map file redirect.
