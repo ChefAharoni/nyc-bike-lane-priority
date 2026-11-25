@@ -1,5 +1,7 @@
 <script lang="ts">
-  export interface LayerVis { priority: boolean; lanes: boolean; crashes: boolean; area: boolean; }
+  export interface LayerVis {
+    priority: boolean; lanes: boolean; crashes: boolean; area: boolean; boards: boolean; districts: boolean;
+  }
   let { vis, crashesDisabled = false, onchange }: {
     vis: LayerVis; crashesDisabled?: boolean; onchange: (key: keyof LayerVis, on: boolean) => void;
   } = $props();
@@ -8,6 +10,8 @@
     { key: 'lanes', label: 'Bike lanes today', swatch: 'sw-lane' },
     { key: 'crashes', label: 'Crashes (zoom in)', swatch: 'sw-crash' },
     { key: 'area', label: 'Area outline', swatch: 'sw-area' },
+    { key: 'boards', label: 'Community Boards', swatch: 'sw-boards' },
+    { key: 'districts', label: 'Council Districts', swatch: 'sw-districts' },
   ];
   // On phones the panel starts collapsed behind a button; on wider screens CSS always shows it.
   let open = $state(typeof matchMedia === 'function' ? !matchMedia('(max-width: 767px)').matches : true);
@@ -46,6 +50,8 @@
   .sw-lane { background: var(--ok); }
   .sw-crash { height: 0.6rem; width: 0.6rem; border-radius: 50%; background: #7f1d1d; margin: 0 0.25rem; }
   .sw-area { background: repeating-linear-gradient(90deg, var(--area) 0 4px, transparent 4px 6px); }
+  .sw-boards { background: #475569; height: 0.18rem; }
+  .sw-districts { background: repeating-linear-gradient(90deg, #7c3aed 0 5px, transparent 5px 7px); height: 0.18rem; }
   @media (max-width: 767px) {
     .layers { display: flex; flex-direction: column; align-items: flex-end; gap: 0.35rem; }
     .toggle { display: block; }

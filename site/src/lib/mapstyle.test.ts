@@ -1,6 +1,24 @@
 import { describe, expect, it } from 'vitest';
-import { layerIds, priorityState } from './mapstyle';
+import { areaLabelPoints, layerIds, priorityState } from './mapstyle';
 import type { Block, Stretch } from './types';
+
+describe('areaLabelPoints', () => {
+  const square = (x0: number, y0: number, s: number): [number, number][] =>
+    [[x0, y0], [x0 + s, y0], [x0 + s, y0 + s], [x0, y0 + s], [x0, y0]];
+  it('puts one point per area at the centroid, using the largest polygon of a multipolygon', () => {
+    const fc = { features: [
+      { properties: { kind: 'cb', id: '309', name: 'Brooklyn CB 9' },
+        geometry: { type: 'Polygon' as const, coordinates: [square(0, 0, 2)] } },
+      { properties: { kind: 'cd', id: '40', name: 'Council District 40' },
+        geometry: { type: 'MultiPolygon' as const, coordinates: [[square(10, 10, 1)], [square(20, 20, 4)]] } },
+    ] };
+    const out = areaLabelPoints(fc);
+    expect(out.features).toHaveLength(2);
+    expect(out.features[0].geometry.coordinates).toEqual([1, 1]);
+    expect(out.features[0].properties.name).toBe('Brooklyn CB 9');
+    expect(out.features[1].geometry.coordinates).toEqual([22, 22]);
+  });
+});
 
 const blk = (id: string, o: Partial<Block> = {}): Block => ({
   segmentid: id, street: 'MAIN ST', borough: 'Manhattan', current_facility: 'none', tier: null, rank: null,

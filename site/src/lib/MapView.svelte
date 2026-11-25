@@ -9,7 +9,7 @@
   import type { Route } from './route';
   import type { Area, AreaKind, LaneAtCrash } from './types';
   import { titleCase } from './format';
-  import { colors, laneWords, layerIds, priorityState, sourceIds, type BlockState } from './mapstyle';
+  import { areaLabelPoints, colors, laneWords, layerIds, priorityState, sourceIds, type BlockState } from './mapstyle';
 
   let { data, route, kind, area, crashSegments, crashesDisabled, highlightStretchIds = [], onselect }: {
     data: DataBundle; route: Route; kind: AreaKind; area: Area | null;
@@ -24,7 +24,7 @@
   let el: HTMLDivElement;
   let map: maplibregl.Map | null = null;
   let ready = $state(false);
-  let vis = $state<LayerVis>({ priority: true, lanes: true, crashes: true, area: true });
+  let vis = $state<LayerVis>({ priority: true, lanes: true, crashes: true, area: true, boards: false, districts: false });
   let prevCrashes: boolean | null = null;
   let applied = new Map<string, BlockState>();
   let gen = 0;
@@ -57,6 +57,14 @@
     m.addSource(sourceIds.crashes, { type: 'vector', url: `pmtiles://${abs('crashes.pmtiles')}` });
     m.addSource(sourceIds.areas, { type: 'geojson', data: abs('areas.geojson') });
 
+    // Every Community Board / Council District boundary, toggled from the layer panel (off by default).
+    // Drawn first so the data layers sit on top of them.
+    const lineWidth: maplibregl.ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], 10, 1, 15, 2];
+    m.addLayer({ id: layerIds.boardLines, type: 'line', source: sourceIds.areas, filter: ['==', ['get', 'kind'], 'cb'],
+      layout: { visibility: 'none' }, paint: { 'line-color': colors.boards, 'line-width': lineWidth, 'line-opacity': 0.8 } });
+    m.addLayer({ id: layerIds.districtLines, type: 'line', source: sourceIds.areas, filter: ['==', ['get', 'kind'], 'cd'],
+      layout: { visibility: 'none' },
+      paint: { 'line-color': colors.districts, 'line-width': lineWidth, 'line-opacity': 0.8, 'line-dasharray': [4, 2] } });
     m.addLayer({ id: layerIds.area, type: 'line', source: sourceIds.areas, filter: ['==', ['get', 'id'], '__none__'],
       paint: { 'line-color': colors.area, 'line-width': 2.5, 'line-dasharray': [3, 2] } });
     m.addLayer({ id: layerIds.lanesOffstreet, type: 'line', source: sourceIds.lanes, 'source-layer': 'lanes',
@@ -82,11 +90,29 @@
         'circle-color': ['match', ['get', 'lane'], 'none', colors.crash.none, 'paint', colors.crash.paint,
           'sharrow', colors.crash.sharrow, 'protected', colors.crash.protected, colors.crash.unknown],
         'circle-stroke-color': '#ffffff', 'circle-stroke-width': 1, 'circle-opacity': 0.9 } });
+    // Boundary names, only when the style has fonts (the offline fallback background has none).
+    if (m.getStyle().glyphs) {
+      m.addSource(sourceIds.areaLabels, { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+      fetch(abs('areas.geojson')).then((r) => r.json()).then((fc) => {
+        (m.getSource(sourceIds.areaLabels) as maplibregl.GeoJSONSource | undefined)?.setData(areaLabelPoints(fc));
+      }).catch((e) => console.warn('area labels', e));
+      const label = (id: string, kind: 'cb' | 'cd', color: string) => m.addLayer({
+        id, type: 'symbol', source: sourceIds.areaLabels, filter: ['==', ['get', 'kind'], kind], minzoom: 11,
+        layout: { visibility: 'none', 'text-field': ['get', 'name'], 'text-size': 12, 'text-font': ['Noto Sans Regular'],
+          'text-allow-overlap': false },
+        paint: { 'text-color': color, 'text-halo-color': '#ffffff', 'text-halo-width': 1.5 } });
+      label(layerIds.boardLabels, 'cb', colors.boards);
+      label(layerIds.districtLabels, 'cd', colors.districts);
+    }
   }
 
   function applyVis() {
     if (!ready || !map) return;
-    const set = (ids: string[], on: boolean) => ids.forEach((id) => map!.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'));
+    const set = (ids: string[], on: boolean) => ids.forEach((id) => {
+      if (map!.getLayer(id)) map!.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
+    });
+    set([layerIds.boardLines, layerIds.boardLabels], vis.boards);
+    set([layerIds.districtLines, layerIds.districtLabels], vis.districts);
     set([layerIds.priority, layerIds.priorityCasing], vis.priority);
     set([layerIds.lanesProtected, layerIds.lanesPaint, layerIds.lanesOffstreet], vis.lanes);
     set([layerIds.crashes], vis.crashes && !crashesDisabled);
