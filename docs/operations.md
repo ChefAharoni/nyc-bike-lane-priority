@@ -34,13 +34,13 @@ Runtime: about 76 s wall clock (matching and contract about 65 s, tiles about 7 
 | areas.json | 39,113 | not measured |
 | areas.geojson | 625,159 | not measured |
 | meta.json | 1,433 | not measured |
-| blocks.pmtiles | 4,416,644 | not measured |
-| bike_lanes.pmtiles | 795,759 | 794,693 |
+| blocks.pmtiles | 5,406,846 (from z8; 4,416,644 when it started at z10) | not measured |
+| bike_lanes.pmtiles | 1,016,769 (from z8; 795,759 at z10) | not measured |
 | crashes.pmtiles | 4,595,338 | 4,561,019 |
 | crashes/ (112 CSVs) | about 13 MB total | not measured |
 | snapshots/2026-11-21/ (5 gzipped JSON files) | 1,528,970 | already gzip |
 
-`data_out` is about 44 MB in total (disk usage 42,920 KB): 1.5 MB is the one snapshot and the rest is the live set. `blocks.json` is over
+`data_out` is about 45 MB in total: 1.5 MB is the one snapshot and the rest is the live set. `blocks.json` is over
 the 10 MB raw target; that is accepted because Pages serves gzip (0.95 MB). PMTiles are already compressed, so
 gzip gains nothing on them.
 
@@ -56,7 +56,7 @@ limit: at z10 and z11 the density drop still removes about 44% of the ranked blo
 priority layer is drawn from those tiles when zoomed out, so a zoomed-out map is a thinned view, and every block
 appears from z12.
 
-Notes: blocks and lanes use `-Z8` so the citywide view (about z8.7 on phones, z9.6 on desktop) shows them; crashes use `-Z10` (the site shows crash dots from z12); `blocks.pmtiles` holds 147,217 of the 147,218 snap-layer blocks (the missing one has zero length) and its maximum
+Notes: blocks and lanes use `-Z8` (since 2026-11-25; before that they started at z10 and the citywide view, about z8.7 on phones and z9.6 on desktop, showed no priority streets at all); crashes use `-Z10` (the site shows crash dots from z12); `blocks.pmtiles` holds 147,217 of the 147,218 snap-layer blocks (the missing one has zero length) and its maximum
 zoom is 12 (the client overzooms). All three tile files start with the `PMTiles` magic bytes.
 
 ## Before the first deploy

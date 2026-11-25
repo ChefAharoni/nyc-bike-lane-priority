@@ -1,45 +1,49 @@
 # NYC Bike Lane Priority
 
-A static website that ranks New York City streets by how urgently they need protected bike lanes. It is built from public crash, street-network and bike-route data. You can look at the whole city, one community board or one council district, see the worst stretches on a map, open a street for details, and export a summary report.
+A static website that ranks New York City streets by how urgently they need protected bike lanes. It is built from public crash, street-network and bike-route data. You can look at the whole city, one Community Board or one Council District, see the worst stretches on a map, open a street for details, and export a report for DOT or a board meeting.
 
-Live site: **https://bikelanepriority.org** (for example, Brooklyn Community Board 9: https://bikelanepriority.org/#/cb/309). The data refreshes every night at 2 am Eastern (3 am in summer).
+Live site: **https://bikelanepriority.org** (for example, Brooklyn Community Board 9: https://bikelanepriority.org/#/cb/309). The data refreshes every night at 2 am Eastern (3 am in summer). How the numbers are made is explained on the site's "About this data" page.
+
+**Working on the code? Start with [`AGENTS.md`](AGENTS.md).**
+
+## What the site does
+
+- Ranks street blocks, stretches (connected runs of one street) and whole streets for protected lanes. Streets with no bike lane always rank above streets with only paint or sharrows.
+- Switches between Community Boards and Council Districts. Streets that cross several boards are shown whole and tagged with every board they touch.
+- Map layers: priority streets, bike lanes today, bike crashes, the selected area's outline, and every Community Board and Council District boundary.
+- A detail panel for each street or block, shareable links, dated snapshots of earlier rankings, and printable reports (DOT summary or board view) with CSV downloads.
 
 ## How it works
 
-- `pipeline/` (Python) downloads the data, matches each bike crash to a street block and the bike lane that was there, scores and ranks the blocks, joins them into stretches and whole streets, and writes JSON and map tiles to `data_out/`.
+- `pipeline/` (Python) downloads the data, matches each bike crash to a street block and the bike lane that was there on that date, scores and ranks the blocks, joins them into stretches and whole streets, and writes JSON, CSV and map tiles to `data_out/`.
 - `site/` (Svelte and MapLibre) is the website. It reads those files and runs entirely in the browser.
-- `scripts/assemble_site.sh` builds the site and copies the data next to it in `site/dist`.
+- `.github/workflows/nightly.yml` runs the pipeline every night, checks the result, keeps the data on the `data` branch and deploys to GitHub Pages.
 
-## Run the pipeline
+## Quick start
 
 ```
 uv sync
 uv run pytest -q
-uv run python -m pipeline --help
-```
+uv run python -m pipeline --out data_out --raw raw --lion-cache .cache/lion --snapshots data_out/snapshots
 
-The checks against the original results are in `docs/parity.md`.
-
-## Run the site
-
-```
-npm --prefix site install
+npm --prefix site ci
+cp -R data_out/. site/public/data/
 npm --prefix site run dev
 ```
 
-To try it with real data, run the pipeline first, then `scripts/assemble_site.sh data_out data_out/snapshots` and `npm --prefix site run preview`.
+The first pipeline run downloads everything from NYC Open Data and takes about 15 minutes; later runs reuse the cache. Tests, the browser smoke test and the rules for changing things are in `AGENTS.md`.
 
-## Tests
+## Docs
 
-```
-cd site
-npx vitest run     # unit tests
-npm run check      # type check
-npm run e2e        # browser smoke test
-```
+- [`AGENTS.md`](AGENTS.md): how the project fits together and how to work on it
+- [`docs/data-contract.md`](docs/data-contract.md): the files the pipeline writes and the site reads
+- [`docs/operations.md`](docs/operations.md): nightly workflow, data branch, snapshots, sanity gate, custom domain
+- [`docs/parity.md`](docs/parity.md): checks against the original analysis, areas, stretches and a CB 9 walkthrough
 
-`npm run e2e` needs `data_out/` from a pipeline run and Google Chrome installed. It builds the real-data site into `site/dist` (in a test mode that exposes the map to the test), serves it and drives it in Chrome: Brooklyn CB 9, layer switches, detail, export, the unknown-area notice and a phone-sized screen. It is not part of the CI workflow because CI has no real data.
+## Data sources
 
-## Nightly deploy
+NYC Open Data: Motor Vehicle Collisions (crashes, persons, vehicles), NYC Bike Routes, LION street network, City Council Districts and Community Districts. Basemap by OpenFreeMap, data from OpenStreetMap.
 
-A GitHub Actions workflow refreshes the data every night, stores it on the `data` branch and deploys the site to GitHub Pages. See `docs/operations.md` for how it works, how to rerun it and what to do after a sanity failure.
+## License
+
+MIT (see `LICENSE`).

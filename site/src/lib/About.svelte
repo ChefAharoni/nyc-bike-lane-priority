@@ -180,6 +180,19 @@
       </p>
     </section>
 
+    <section id="a-layers">
+      <h2>Map layers</h2>
+      <p>The Layers panel on the map turns each of these on or off. Turn them all off for a plain street map.</p>
+      <ul>
+        <li><strong>Priority blocks:</strong> red where there is no bike lane today, orange where there is only paint or a sharrow. Lines are drawn for the ranked streets or blocks in the list.</li>
+        <li><strong>Bike lanes today:</strong> solid green for protected lanes, dashed green for painted lanes and sharrows, light green for off-street paths.</li>
+        <li><strong>Crashes:</strong> one dot per bike crash in the last 5 years, colored by the lane at the time of the crash. Dots appear when you zoom in.</li>
+        <li><strong>Area outline:</strong> the boundary of the board or district you picked.</li>
+        <li><strong>Community Boards</strong> and <strong>Council Districts:</strong> every boundary in the city, with names when you zoom in. They are off at first.</li>
+      </ul>
+      <p>Zoomed out over the whole city, some quieter blocks are left out to keep the map readable. Every ranked block shows once you zoom in or pick an area.</p>
+    </section>
+
     <section id="a-time">
       <h2>Dates, snapshots and reports</h2>
       <p>

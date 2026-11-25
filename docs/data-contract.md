@@ -20,7 +20,7 @@ Conventions:
 |---|---|---|
 | `meta.json` | `Meta` | Data date, windows, source times, counts, citywide and unassigned totals. |
 | `areas.json` | `Areas` | Every board (`cb`) and district (`cd`) with bbox and totals. |
-| `areas.geojson` | FeatureCollection | Area outline polygons; feature properties are `kind`, `id`, `name`. |
+| `areas.geojson` | FeatureCollection | Area outline polygons (the 59 boards and 51 districts, no parks/airports); feature properties are `kind`, `id`, `name`. The site uses it for the selected area's outline and for the Community Board and Council District boundary layers (one label point per area is computed in the browser by `areaLabelPoints` in `mapstyle.ts`). |
 | `blocks.json` | `Block[]` | Contains (a) every block with a placed bike crash in any year and (b) every block referenced by any stretch's `segmentids` or `gap_segmentids`, even if it has zero crashes ever (gap blocks), so the site can always look up a stretch's blocks. Sorted by `rank`, unranked (null) last, then by `segmentid`. |
 | `stretches.json` | `Stretch[]` | Sorted by `rank`. |
 | `streets.json` | `Street[]` | Whole-street totals, sorted by `rank`. |
@@ -137,10 +137,10 @@ Whole-street totals: ranked blocks grouped by street, borough and tier.
 
 ## Tiles
 
-All three are vector tiles built with tippecanoe.
-- `blocks.pmtiles`, layer `blocks`: every LION snap-layer block (not only those in `blocks.json`). Property `segmentid` (string); use it as `promoteId`.
-- `bike_lanes.pmtiles`, layer `lanes`: current bike routes. Properties `facility` (`protected | paint | sharrow`) and `onoff` (`ON | OFF`).
-- `crashes.pmtiles`, layer `crashes`: 5-year crashes with coordinates. Properties `collision_id`, `date`, `lane` (a `LaneAtCrash`), `injured`, `killed`, `street`, `segmentid` (empty when unmatched).
+All three are vector tiles built with tippecanoe (`pipeline/tiles.py`). The map draws nothing for a layer below its minimum zoom, so the minimums must stay at or below the citywide view (about z8.7 on phones).
+- `blocks.pmtiles`, layer `blocks`, zoom 8 to 12 (overzoomed above 12): every LION snap-layer block (not only those in `blocks.json`). Property `segmentid` (string); use it as `promoteId`. Priority colors come from feature state set by the site, so the same tiles serve every snapshot. Every ranked block is present from z12; z8 to z11 are thinned in dense areas.
+- `bike_lanes.pmtiles`, layer `lanes`, from zoom 8: current bike routes. Properties `facility` (`protected | paint | sharrow`) and `onoff` (`ON | OFF`).
+- `crashes.pmtiles`, layer `crashes`, from zoom 10 (the site shows dots from z12): 5-year crashes with coordinates. Properties `collision_id`, `date`, `lane` (a `LaneAtCrash`), `injured`, `killed`, `street`, `segmentid` (empty when unmatched).
 
 ## Fixture notes
 
