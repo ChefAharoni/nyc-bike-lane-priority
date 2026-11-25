@@ -61,20 +61,40 @@ zoom is 12 (the client overzooms). All three tile files start with the `PMTiles`
 
 ## Before the first deploy
 
-Do these once, in order:
+Do these once, in order. Pushing `main` starts the workflows, so set everything up before the first push:
 
-1. Create the GitHub repository and push `main`.
-2. Settings, Pages, Source: choose "GitHub Actions".
-3. Settings, Environments: confirm the `github-pages` environment allows deployments from `main` (the default
-   rule does; a custom branch rule must include `main`).
-4. Settings, Secrets and variables, Actions: add the repository secret `BRANDING_PATTERNS`. Its value is the
+1. Create the GitHub repository, empty (do not push yet).
+2. Settings, Secrets and variables, Actions: add the repository secret `BRANDING_PATTERNS`. Its value is the
    banned-term list, one regex per line (the non-comment lines of the local reference file
    `../nyc-bike-lane-priority-reference/branding_terms.txt`). The patterns are deliberately not stored anywhere in this
    repository. Without the secret `scripts/check_branding.sh` exits 2 ("branding patterns not configured") and the
    `branding` job, the live-data scan and the site assembly all fail; it never passes silently.
-5. Optional: add the secret `SOCRATA_APP_TOKEN` to raise the NYC Open Data rate limit.
-6. Run the nightly workflow once with "Run workflow" (workflow_dispatch) and watch each job (`pipeline`, `site`,
-   `deploy`, `close-sanity-issue`). The first run has no `data` branch, so only the absolute sanity bounds apply.
+3. Settings, Secrets and variables, Dependabot: add the same `BRANDING_PATTERNS` secret (Dependabot pull requests
+   cannot read Actions secrets, so without it their branding check fails).
+4. Settings, Pages, Source: choose "GitHub Actions".
+5. Settings, Environments: confirm the `github-pages` environment allows deployments from `main` (the default
+   rule does; a custom branch rule must include `main`).
+6. Optional: add the secret `SOCRATA_APP_TOKEN` to raise the NYC Open Data rate limit.
+7. Push `main`. This starts the first nightly run (no `data` branch yet, so only the absolute sanity bounds
+   apply). Watch each job (`pipeline`, `site`, `deploy`, `close-sanity-issue`). The first run takes about 20
+   minutes because nothing is cached yet.
+
+### Custom domain
+
+The site is served at `https://bikelanepriority.org` (registered and DNS-hosted at Cloudflare). Setup, for reference:
+
+- Cloudflare DNS, all "DNS only" (grey cloud): four `A` records for the apex to `185.199.108.153`,
+  `185.199.109.153`, `185.199.110.153`, `185.199.111.153`, and `CNAME www` to `chefaharoni.github.io`.
+- The repository's Pages custom domain is `bikelanepriority.org` with "Enforce HTTPS" on
+  (`gh api -X PUT repos/ChefAharoni/nyc-bike-lane-priority/pages -f cname=bikelanepriority.org`, then
+  `-F https_enforced=true` once the certificate is issued).
+- The site uses relative paths and hash routing, so nothing in the code depends on the domain.
+
+**If the domain is ever dropped or expires:** remove the custom domain first (Settings, Pages, Custom domain,
+Remove, or `gh api -X PUT repos/ChefAharoni/nyc-bike-lane-priority/pages -f cname=`). While a custom domain is set,
+`chefaharoni.github.io/nyc-bike-lane-priority` redirects to it, so a lapsed domain would take the site offline.
+Removing it restores the `github.io` address. Also delete the DNS records so the name can't point at someone
+else's Pages site.
 
 ### Branding check configuration
 

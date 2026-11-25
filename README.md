@@ -2,7 +2,7 @@
 
 A static website that ranks New York City streets by how urgently they need protected bike lanes. It is built from public crash, street-network and bike-route data. You can look at the whole city, one community board or one council district, see the worst stretches on a map, open a street for details, and export a summary report.
 
-Live URL: (pending first deploy)
+Live site: **https://bikelanepriority.org** (for example, Brooklyn Community Board 9: https://bikelanepriority.org/#/cb/309). The data refreshes every night at 2 am Eastern (3 am in summer).
 
 ## How it works
 
